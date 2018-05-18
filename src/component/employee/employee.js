@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Card, WingBlank, WhiteSpace} from 'antd-mobile';
 import {connect} from 'react-redux';
 import {getUserList} from '../../redux/chatuser.redux';
 import UserCard from '../usercard/usercard';
@@ -9,21 +8,15 @@ import UserCard from '../usercard/usercard';
 	state=>state.chatuser,
 	{getUserList}
 )
-class Employer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			 data: []
-		};
-	}
+class Employee extends Component {
   componentDidMount(){
-		this.props.getUserList('employee')
+		this.props.getUserList('employer')
 	}
   render() {
-    return (
-			<UserCard userlist={this.props.userlist}></UserCard>
+    return(
+      <UserCard userlist={this.props.userlist}></UserCard>
     )
   }
 }
 
-export default Employer
+export default Employee

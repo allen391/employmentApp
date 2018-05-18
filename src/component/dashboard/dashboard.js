@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 import { NavBar } from 'antd-mobile';
 import NavLinkBar from '../navlink/navlink';
 import Employer from '../../component/employer/employer';
+import Employee from '../../component/employee/employee';
 
-function Employee(){
-  return <h2>employee</h2>
-}
+
 function Msg(){
   return <h2>msg</h2>
 }
