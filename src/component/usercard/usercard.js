@@ -12,7 +12,7 @@ class UserCard extends Component {
       <WingBlank>
 			<WhiteSpace></WhiteSpace>
 				{this.props.userlist.map(v=>(
-					v.avatar ? (<Card key={v.user}>
+					v.avatar ? (<Card key={v._id}>
 						<Card.Header
 							title={v.user}
 							thumb={require(`../img/${v.avatar}.png`)}
