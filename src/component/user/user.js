@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Result, List,Brief,WhiteSpace,Modal} from 'antd-mobile'
+import {Result, List,Brief,WhiteSpace,Modal,Button} from 'antd-mobile'
 import browserCookie from 'browser-cookies'
 import {logoutSubmit} from '../../redux/user.redux'
 import {Redirect} from 'react-router-dom'
@@ -16,9 +16,9 @@ class User extends React.Component{
 	logout(){
 		const alert = Modal.alert
 
-		alert('注销', '确认退出登录吗???', [
-		      { text: '取消', onPress: () => console.log('cancel') },
-		      { text: '确认', onPress: () => {
+		alert('Cancel', 'Are you sure to logout???', [
+		      { text: 'Cancel', onPress: () => console.log('cancel') },
+		      { text: 'Confirm', onPress: () => {
 		      	browserCookie.erase('userid')
 		      	this.props.logoutSubmit()
 		      }}
@@ -34,23 +34,26 @@ class User extends React.Component{
 				<Result
 					img={<img src={require(`../img/${props.avatar}.png`)} style={{width:50}} alt="" />}
 					title={props.user}
-					message={props.type=='employer'?props.company:null}
+					message={props.type=='boss'?props.company:null}
 				/>
+				
 				<List renderHeader={()=>'Desc'}>
 					<Item
 						multipleLine
 					>
 						{props.title}
 						{props.desc.split('\n').map(v=><Brief key={v}>{v}</Brief>)}
-						{props.money?<Brief>Salary:{props.money}</Brief>:null}
+						{props.money?<Brief><b>Salary</b>:{props.money}</Brief>:null}
 					</Item>
+					
 				</List>
 				<WhiteSpace></WhiteSpace>
 				<List>
-					<Item onClick={this.logout}>退出登录</Item>
+					<Button type="primary" onClick={this.logout}>Logout</Button>
 				</List>
 			</div>
 		):<Redirect to={props.redirectTo} />
+
 	}
 }
 

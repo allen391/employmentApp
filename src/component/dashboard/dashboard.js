@@ -1,40 +1,47 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {NavBar} from 'antd-mobile'
-import {Switch, Route} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import NavLinkBar from '../navlink/navlink'
-import Employer from '../../component/employer/employer'
-import Employee from '../../component/employee/employee'
+import Boss from '../../component/boss/boss'
+import Genius from '../../component/genius/genius'
 import User from '../../component/user/user'
+import Msg from '../msg/msg'
+import {getMsgList,recvMsg} from '../../redux/chat.redux'
+import QueueAnim from 'rc-queue-anim'
 
-function Msg(){
-	return <h2>消息列表页面</h2>
-}
 
 @connect(
-	state=>state
+	state=>state,
+	{getMsgList,recvMsg}
 )
 class Dashboard extends React.Component{
+	componentDidMount(){
+		if (!this.props.chat.chatmsg.length) {
+			this.props.getMsgList()
+			this.props.recvMsg()
+		}
 
+	}
 	render(){
 		const {pathname} = this.props.location
 		const user = this.props.user
 		const navList = [
 			{
-				path:'/employer',
-				text:'employer',
+				path:'/boss',
+				text:'Employee',
 				icon:'boss',
 				title:'Employee List',
-				component:Employer,
-				hide:user.type==='employee'
+				component:Boss,
+				hide:user.type=='genius'
 			},
 			{
-				path:'/employee',
-				text:'Employee',
+				path:'/genius',
+				text:'boss',
 				icon:'job',
 				title:'Employer List',
-				component:Employee,
-				hide:user.type==='employer'
+				component:Genius,
+				hide:user.type=='boss'
 			},
 			{
 				path:'/msg',
@@ -45,29 +52,29 @@ class Dashboard extends React.Component{
 			},
 			{
 				path:'/me',
-				text:'About me',
+				text:'Me',
 				icon:'user',
-				title:'User Center',
+				title:'About Me',
 				component:User
 			}
 		]
 
+		const page = navList.find(v=>v.path === pathname)
 
-		return (
+		//动画生效的话只渲染一个route， 根据当前的path决定组件
+		return page?(
 			<div>
-				<NavBar className='fixd-header' mode='dard'>{navList.find(v=>v.path==pathname).title}</NavBar>
+				<NavBar className='fixd-header' mode='dard'>{page.title}</NavBar>
 				<div style={{marginTop:45}}>
-						<Switch>
-							{navList.map(v=>(
-								<Route key={v.path} path={v.path} component={v.component}></Route>
-							))}
-						</Switch>
+					<QueueAnim type='scaleX' duration={800}>
+							<Route key={page.path} path={page.path} component={page.component}></Route>
+					</QueueAnim>
 				</div>
 
 				<NavLinkBar data={navList}></NavLinkBar>
 				
 			</div>
-		)
+		) : <Redirect to="/msg"></Redirect>
 
 		
 	}
