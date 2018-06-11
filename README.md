@@ -40,8 +40,8 @@ npm run server
 - [x] dynamic message notification 
 
 ### TODO 
-- [] userinfo modification(username, password)
-- [] beatify the UI 
+- [ ] userinfo modification(username, password)
+- [ ] beatify the UI 
 
 ### Page Intro
 continuing
