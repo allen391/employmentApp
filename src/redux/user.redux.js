@@ -57,7 +57,7 @@ export function update(data){
 }
 export function login({user,pwd}){
 	if (!user||!pwd) {
-		return errorMsg('用户密码必须输入')
+		return errorMsg('You should input username and password!')
 	}
 	return dispatch=>{
 		axios.post('/user/login',{user,pwd})
@@ -75,10 +75,10 @@ export function login({user,pwd}){
 
 export function regisger({user,pwd,repeatpwd,type}){
 	if (!user||!pwd||!type) {
-		return errorMsg('用户名密码必须输入')
+		return errorMsg('You should input username and password!')
 	}
 	if (pwd!==repeatpwd) {
-		return errorMsg('密码和确认密码不同')
+		return errorMsg('Username and passoword should be identical!')
 	}
 	return dispatch=>{
 		axios.post('/user/register',{user,pwd,type})
